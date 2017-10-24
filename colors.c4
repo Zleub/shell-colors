@@ -1,0 +1,32 @@
+include(colors.m4)
+
+define(color_interface,
+char * $1(const char * s) {
+	(void)s;
+
+	char * open = "\033[38;5;`eval(256 - $2)'m";
+	char * close = "\033[39m";
+
+	char *_s = malloc(strlen(s) + strlen(open) + strlen(close));
+
+	strcpy(_s, open);
+	strcpy(_s + strlen(open), s);
+	strcpy(_s + strlen(open) + strlen(s), close);
+
+	return (_s);
+})
+
+define(`allColors', `ifelse(`$#', `1', `color_interface($1, $#)', `color_interface($1, $#)
+allColors(shift($@))')')
+
+define(`color_array', `$1,')
+define(`arrayColors', `ifelse(`$#', `1', `color_array($1, $#)', `color_array($1, $#)
+arrayColors(shift($@))')')
+
+#include "colors.h"
+
+allColors(colorList)
+
+t_color colors[] = {
+	arrayColors(colorList)
+};

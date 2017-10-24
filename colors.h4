@@ -1,0 +1,20 @@
+#ifndef SHELL_COLORS_H
+# define SHELL_COLORS_H
+
+include(colors.m4)
+
+define(color_interface, char * $1(const char * s);)
+
+define(`allColors', `ifelse(`$#', `1', `color_interface($1)', `color_interface($1)
+allColors(shift($@))')')
+
+# include <unistd.h>
+# include <stdlib.h>
+# include <string.h>
+
+allColors(colorList)
+
+typedef char *(*t_color)(const char *);
+extern t_color colors[];
+
+#endif
