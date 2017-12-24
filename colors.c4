@@ -16,17 +16,26 @@ char * $1(const char * s) {
 	return (_s);
 })
 
-define(`allColors', `ifelse(`$#', `1', `color_interface($1, $#)', `color_interface($1, $#)
-allColors(shift($@))')')
+define(`colorsInterface', `ifelse(`$#', `1', `color_interface($1, $#)', `color_interface($1, $#)
+colorsInterface(shift($@))')')
 
 define(`color_array', `$1,')
-define(`arrayColors', `ifelse(`$#', `1', `color_array($1, $#)', `color_array($1, $#)
-arrayColors(shift($@))')')
+define(`colorsDefinition', `ifelse(`$#', `1', `color_array($1, $#)', `color_array($1, $#)
+colorsDefinition(shift($@))')')
+define(`color_string', `"$1",')
+define(`colorsName', `ifelse(`$#', `1', `color_string($1, $#)', `color_string($1, $#)
+colorsName(shift($@))')')
 
 #include "colors.h"
 
-allColors(colorList)
+colorsInterface(colorList)
 
-t_color colors[] = {
-	arrayColors(colorList)
+t_color colorsDef[] = {
+colorsDefinition(colorList)
+NULL
+};
+
+char * colorsList[] = {
+colorsName(colorList)
+NULL
 };

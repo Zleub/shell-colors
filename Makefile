@@ -8,9 +8,9 @@ CFLAGS = \
 	-Wall \
 	-Werror \
 	-Wextra
-LDFLAGS =
+LDFLAGS = -L. -lcolors
 
-all: colors.h $(NAME)
+all: colors.h $(NAME) test
 
 %.c: %.c4
 	m4 $< > $@
@@ -24,10 +24,14 @@ $(NAME): $(OBJ)
 
 clean:
 	rm -rf $(OBJ)
+	rm -rf main.o
 
-fclean:
-	rm -rf $(NAME) $(OBJ) colors.h
+fclean: clean
+	rm -rf $(NAME) colors.h a.out
 
 re: fclean all
 
-.PHONY: all $(NAME) clean fclean re
+test: main.o
+	$(CC) $(CFLAGS) $(LDFLAGS) main.o
+
+.PHONY: all $(NAME) clean fclean re test
